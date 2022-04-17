@@ -1,0 +1,96 @@
+create database store;
+
+use store;
+
+-- 1
+create table countries(
+code int primary key,
+name varchar(20) not null,
+continent_name varchar(20) unique
+);
+
+-- 2
+create table users(
+id int ,
+full_name varchar(20),
+email varchar(20) unique,
+gender char check(gender= 'F' or gender= 'M'),
+date_of_birth varchar(15),
+created_at datetime,
+country_code int,
+primary key (id),
+foreign key (country_code) references countries(code)
+);
+
+-- 3
+create table orders(
+id int primary key,
+user_id int ,
+status varchar(6) check(status= 'start' or status= 'finish'),
+created_at datetime,
+foreign key (user_id) references users(id)
+);
+
+-- 4
+create table order_products(
+order_id int,
+product_id int,
+quantity int default 0,
+primary key (order_id, product_id),
+foreign key (order_id) references orders(id),
+foreign key (product_id) references products(id)
+);
+
+--5
+create table products(
+id int primary key,
+name varchar(10) not null,
+price int default 0,
+status varchar(10) check(status= 'valid' or status= 'expired'),
+created_at datetime
+);
+
+
+
+-- <DML -insert>
+
+
+-- ADD 1
+
+insert into countries values (001,'BH', 'KSA');
+select * from countries;
+
+
+-- ADD 2
+
+insert into users values (1, 'sadiq', 'sadiq@gmail.com', 'M', '21-06-1999',17-04-2022 ,001);
+select * from users;
+
+-- ADD 3
+
+insert into orders values (1, 1, 'statrt', 17-04-2022);
+select * from orders;
+
+-- ADD 4
+
+insert into products values (1, 'pc', 4500, 'valid', 17-04-2022);
+select * from orders;
+
+-- ADD 5
+
+insert into order_products values (1, 1, 2);
+select * from order_products;
+
+
+-- <DML - Update>
+
+
+-- UPDATE 6
+
+update countries set name = 'KSA' where code=001;
+
+-- <DML - Delete>
+
+-- DELETE 7
+
+delete from products where id= 1;
